@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <style>
+   #container {
+    border: solid;
+    width: 332px;
+    height: 332px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.hole {
+    background-color: black;
+    border: solid;
+    width: 160px;
+    height: 160px;
+    float: left;
+}
+
+.item {
+    font-size: 128px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 140px;
+    height: 140px;
+    background-color: #C0C0C0;
+    color: #FFFFFF;
+    text-align: center;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.dragging {
+    background-color: yellow;
+}
+
+  </style>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.js"> </script>
+  <script src="script.js" ></script>
+</head>
+
+<body>
+  <h1>Essential Drag and Drop</h1>
+  <h2>Name: xxxxxxx </h2>
+  <div id="container">
+    <div id="hole1" class="hole">
+      <div id="item1" draggable="true" class="item">1</div>
+    </div>
+    <div id="hole2" class="hole">
+      <div id="item2" draggable="true" class="item">2</div>
+    </div>
+    <div id="hole3" class="hole">
+      <div id="item3" draggable="true" class="item">3</div>
+    </div>
+    <div id="hole4" class="hole"></div>
+  </div>
+  
+  <script type="text/javascript">
+  var $draggedItem;
+
+$(document).ready(function () {
+    $('.item').on('dragstart', dragging);
+    $('.item').on('dragend', draggingEnded);
+});
+function dragging(e) {
+    $(e.target).addClass('dragging');
+    $draggedItem = $(e.target);
+}
+
+function draggingEnded(e) {
+    $(e.target).removeClass('dragging');
+}
+var $draggedItem;
+
+$(document).ready(function () {
+    $('.item').on('dragstart', dragging);
+    $('.item').on('dragend', draggingEnded);
+    $('.hole').on('dragenter', preventDefault);
+    $('.hole').on('dragover', preventDefault);
+    $('.hole').on('drop', dropItem);
+});
+
+function dragging(e) {
+    $(e.target).addClass('dragging');
+    $draggedItem = $(e.target);
+}
+
+function draggingEnded(e) {
+    $(e.target).removeClass('dragging');
+}
+
+function preventDefault(e) {
+    e.preventDefault();
+}
+
+function dropItem(e) {
+    var hole = $(e.target);
+    if (hole.hasClass('hole') && hole.children().length === 0) {
+        $draggedItem.detach();
+        $draggedItem.appendTo($(e.target));
+    }
+}
+
+
+  </script>
+</body>
+
+</html>
